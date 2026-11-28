@@ -1,0 +1,371 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>LearnHub · Ravi Kharwar</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{color-scheme:light;--bg:#f4f5f7;--bg2:#fff;--bg3:#f9fafb;--card:#fff;--border:#e4e7ec;--text:#101828;--text2:#475467;--text3:#667085;--ac:#f26b0a;--acs:rgba(242,107,10,.1);--acb:rgba(242,107,10,.35);--green:#12a36a;--red:#e5484d;--yellow:#e8a010;--purple:#7c5cf0;--pink:#e5509a;--font:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;--accent:var(--ac);--muted:var(--text3);--tx:var(--text);--gb:var(--border);--soft:var(--acs);--accent3:var(--green);--accent4:var(--yellow);--accent2:var(--ac)}
+:root[data-theme=dark]{color-scheme:dark;--bg:#0a0e1a;--bg2:#111827;--bg3:#1a2035;--card:#161d2e;--border:#1e2d45;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--ac:#0ea5e9;--acs:rgba(14,165,233,.12);--acb:rgba(14,165,233,.35);--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--purple:#8b5cf6;--pink:#ec4899}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;min-height:100vh;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+#loginScreen{display:flex;align-items:center;justify-content:center;position:fixed;inset:0;z-index:1000;background:var(--bg)}
+.login-box{background:var(--card);border:1px solid var(--acb);border-radius:14px;padding:44px 38px;width:400px;max-width:94vw;box-shadow:0 20px 60px rgba(16,24,40,.12);animation:vin .5s}
+.portal-badge{display:inline-flex;gap:6px;padding:4px 12px;border-radius:20px;font:500 11px var(--mono);margin-bottom:18px;border:1px solid var(--acb);background:var(--acs);color:var(--ac)}
+.brand{font-size:22px;font-weight:700;margin-bottom:4px}.brand span{color:var(--ac)}.sub{font:11px var(--mono);color:var(--text3);margin-bottom:24px}
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}.fg label,.st .l{font:10px var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.05em}
+.fg input,.top-in,.hb-bar input{padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font:14px var(--font);outline:0;transition:border .2s}.fg input:focus,.top-in:focus,.hb-bar input:focus{border-color:var(--ac)}
+.login-btn,.btn{border:0;border-radius:8px;background:var(--ac);color:#fff;font:600 13px var(--font);cursor:pointer;padding:9px 16px;transition:opacity .2s}.login-btn{width:100%;padding:12px;font-size:14px}.login-btn:hover,.btn:hover{opacity:.88}
+.btn.g{background:transparent;border:1px solid var(--border);color:var(--text2)}.btn.g:hover{border-color:var(--ac);color:var(--text);opacity:1}
+.hint{text-align:center;margin-top:14px;font-size:11px;color:var(--text3)}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:240px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;overflow-y:auto;transition:transform .25s}
+.slg{padding:20px;border-bottom:1px solid var(--border)}.slg .brand{font-size:17px;margin:0}.role-pill{display:inline-block;margin-top:7px;padding:2px 10px;border-radius:20px;font:500 10px var(--mono);background:var(--acs);color:var(--ac);border:1px solid var(--acb)}
+.ns{padding:10px 0;border-bottom:1px solid var(--border)}.nst{padding:0 20px 6px;font:10px var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
+.sidebar .nv,.sidebar .sl{display:flex;align-items:center;gap:10px;padding:8px 20px;color:var(--text2);cursor:pointer;font:13px var(--font);background:none;border:0;border-right:2px solid transparent;width:100%;text-align:left;transition:all .15s}
+.sidebar .nv:hover,.sidebar .sl:hover{background:var(--acs);color:var(--text)}.sidebar .nv.on{background:var(--acs);color:var(--ac);border-right-color:var(--ac);font-weight:600}
+.sidebar .sl span{width:22px;text-align:center}
+.sb-bottom{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border)}.sbp{margin-bottom:14px;font-size:11px;color:var(--text2)}.sbp b{display:block;margin-bottom:8px;font-size:12px}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.logout-btn{width:100%;margin-top:10px;padding:8px;background:rgba(229,72,77,.1);border:1px solid rgba(229,72,77,.25);border-radius:6px;color:var(--red);cursor:pointer;font:12px var(--font)}
+.wrap{margin-left:240px}.topbar{position:fixed;top:0;left:240px;right:0;height:52px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 24px;z-index:50}
+.topbar #vt{font-size:13px;font-weight:600;margin-right:auto}.top-in{width:min(280px,30vw);padding:7px 12px;font-size:12px}#clk{font:11px var(--mono);color:var(--text3)}#mb{display:none;background:none;border:0;font-size:20px;color:var(--text);cursor:pointer}
+.tb{padding:5px 11px;border:1px solid var(--border);background:transparent;color:var(--text2);border-radius:7px;font:12px var(--font);cursor:pointer}.tb:hover{border-color:var(--ac);color:var(--text)}
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font:500 10px var(--font)}.badge.top{background:var(--acs);border:1px solid var(--acb);color:var(--ac);font-family:var(--mono)}
+.bg{background:rgba(18,163,106,.15);color:var(--green)}.by{background:rgba(232,160,16,.15);color:var(--yellow)}.bgr{background:rgba(100,116,139,.18);color:var(--text3)}
+main{margin-top:52px;padding:24px;max-width:1400px}
+.view{display:none}.view.on{display:block;animation:vin .35s}@keyframes vin{from{opacity:0}}
+.glass{background:var(--card);border:1px solid var(--border);border-radius:12px}
+h2{font-size:12px;font-weight:600;color:var(--text2);margin:24px 0 12px;display:flex;gap:8px;text-transform:uppercase;letter-spacing:.06em;font-family:var(--mono)}h2 small{margin-left:auto;color:var(--ac);cursor:pointer;text-transform:none;letter-spacing:0;font-family:var(--font);font-size:12px}
+.hello{padding:20px 22px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;border-left:3px solid var(--ac)}.hello h3{font-size:20px;margin-bottom:4px}.hello p{color:var(--text3);font-size:12.5px;line-height:1.6;max-width:560px}.hello .btn{margin-left:auto}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:16px 0}
+.st{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;position:relative;overflow:hidden;display:flex;flex-direction:column}.st:before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac)}
+.st:nth-child(2):before{background:var(--green)}.st:nth-child(3):before{background:var(--purple)}.st:nth-child(4):before{background:var(--yellow)}.st:nth-child(5):before{background:var(--pink)}
+.st .l{order:-1;margin-bottom:5px}.st .n{font-size:24px;font-weight:700}.st .ic{position:absolute;right:14px;top:16px;font-size:18px}
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}.cont{padding:20px;display:flex;gap:18px;align-items:center}.cont svg{width:90px;flex-shrink:0}.cont h4{font-size:15px;margin-bottom:3px}.cont p{color:var(--text3);font-size:12px;margin-bottom:12px}
+.rt{fill:none;stroke:var(--border)}.rg{fill:none;stroke:var(--ac)}.rx{fill:var(--text)}
+.bars{display:flex;align-items:flex-end;gap:10px;height:130px;padding:16px 18px 10px}.bars div{flex:1;text-align:center;font:10px var(--mono);color:var(--text3);display:flex;flex-direction:column;justify-content:flex-end;height:100%}.bars i{display:block;border-radius:3px 3px 0 0;background:var(--ac);min-height:4px;height:0;transition:height .9s cubic-bezier(.2,.8,.2,1);margin-bottom:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}.cc{padding:18px;cursor:pointer;transition:border-color .2s,box-shadow .2s}.cc:hover{border-color:var(--ac);box-shadow:0 4px 14px rgba(16,24,40,.1)}.cc h4{margin:12px 0 4px;font-size:14px}.cc p{color:var(--text3);font-size:12px;line-height:1.5;margin-bottom:12px;min-height:36px}
+.ic{width:38px;height:38px;border-radius:9px;background:var(--acs);display:inline-grid;place-items:center;font-size:19px}
+.tag{display:inline-block;font:10px var(--mono);padding:3px 9px;border-radius:20px;background:var(--acs);color:var(--ac);border:1px solid var(--acb);margin-right:6px}
+.pb{height:6px;border-radius:4px;background:var(--border);overflow:hidden}.pb i{display:block;height:100%;width:0;border-radius:4px;background:var(--ac);transition:width .9s cubic-bezier(.2,.8,.2,1)}.pl{display:flex;justify-content:space-between;font:10px var(--mono);color:var(--text3);margin-top:7px}
+table{width:100%;border-collapse:collapse}th{padding:10px 14px;text-align:left;font:10px var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);background:var(--bg3)}td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:12.5px}.dt tr[data-c]{cursor:pointer}tr:hover td{background:var(--acs)}td.m{font-family:var(--mono);font-size:11px}
+.det{display:grid;grid-template-columns:320px 1fr;gap:14px}.det .glass{padding:20px}
+.ls{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--text2)}.ls:hover{background:var(--acs)}.ls.on{background:var(--acs);color:var(--ac);font-weight:600}.ls u{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;text-decoration:none;display:grid;place-items:center;font-size:10px;color:#fff}.ls.d u{background:var(--green);border-color:var(--green)}
+.back{background:none;border:0;color:var(--ac);cursor:pointer;font:600 12px var(--font);margin-bottom:12px}
+.chip{border:1px solid var(--border);background:var(--card);color:var(--text2);border-radius:7px;padding:6px 13px;font:500 12px var(--font);cursor:pointer}.chip:hover{border-color:var(--ac);color:var(--text)}.chip.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.hb-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.hb-bar input{flex:1;min-width:200px;font:12px var(--mono);padding:8px 12px}
+.hb-t td:first-child{font-family:var(--mono);font-size:12px;color:var(--ac);cursor:pointer;white-space:nowrap}.tag-blue{color:var(--ac)}
+.hb-card{padding:16px}.hb-card h3{font-size:13px;margin-bottom:10px}pre{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;font:11.5px/1.65 var(--mono);color:var(--text2);overflow-x:auto}.cp{float:right;font-size:11px;cursor:pointer;color:var(--ac)}
+.lab2{display:grid;grid-template-columns:1fr 1.4fr;gap:14px}.lab2 .glass{overflow:hidden}.pad{padding:18px}.dv{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+#nlOut{height:360px;overflow:auto;padding:14px;font:12.5px/1.55 var(--mono);white-space:pre-wrap;word-break:break-word;background:var(--bg3);color:var(--text)}.nlr{display:flex;gap:8px;padding:12px 14px;font:12.5px var(--mono);background:var(--bg2);border-top:1px solid var(--border);color:var(--ac)}#nlIn{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--text);font:inherit}
+.th{padding:12px 16px;border-bottom:1px solid var(--border);font:600 12px var(--font);color:var(--text2)}.tk{list-style:none}.tk li{padding:7px 0;color:var(--text3);font-size:13px}.tk li.d{color:var(--green);font-weight:600}.tk li:before{content:"○ "}.tk li.d:before{content:"✔ "}
+.nb{position:fixed;top:62px;right:14px;z-index:9999;display:flex;flex-direction:column;gap:7px}.nf{background:var(--card);border:1px solid rgba(18,163,106,.45);border-radius:9px;padding:10px 14px;font-size:12px;min-width:220px;box-shadow:0 8px 24px rgba(16,24,40,.2);animation:sI .3s}@keyframes sI{from{transform:translateX(100%);opacity:0}}
+.rv{animation:vin .4s both}
+@media(max-width:1000px){.two{grid-template-columns:1fr}}@media(max-width:900px){.det,.lab2{grid-template-columns:1fr}}
+@media(max-width:860px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:none;box-shadow:0 0 40px rgba(0,0,0,.35)}.wrap{margin-left:0}.topbar{left:0;padding:0 14px}#mb{display:inline-block}#clk,.badge.top{display:none}main{padding:16px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.sc-form{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:start}@media(max-width:700px){.sc-form{grid-template-columns:1fr}}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}.sc-i{padding:13px 15px;border:1px solid var(--border);border-radius:10px;background:var(--card);position:relative;overflow:hidden;animation:vin .35s both}.sc-i:before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac)}.sc-i .k{font:10px var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.05em}.sc-i .v{font:600 14px var(--mono);margin-top:5px;word-break:break-all}
+.bin{font:12.5px/2 var(--mono);color:var(--text3);overflow-x:auto;white-space:nowrap}.bin b{font-weight:600;color:var(--text3)}.bin b.nb{color:var(--ac)}.bin span{display:inline-block;width:70px;color:var(--text3);font-size:10px;text-transform:uppercase}
+#sCidr tr[data-p]{cursor:pointer}
+.ai-fab{position:fixed;right:20px;bottom:20px;z-index:900;width:54px;height:54px;border-radius:50%;border:0;background:var(--ac);color:#fff;font-size:22px;cursor:pointer;box-shadow:0 8px 24px rgba(16,24,40,.3);transition:transform .2s}.ai-fab:hover{transform:scale(1.06)}
+.ai{position:fixed;right:20px;bottom:84px;width:380px;max-width:calc(100vw - 24px);height:520px;max-height:calc(100vh - 110px);background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 20px 50px rgba(16,24,40,.28);display:none;flex-direction:column;z-index:900;overflow:hidden}.ai.on{display:flex;animation:vin .25s}
+.ai-h{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;background:var(--bg3)}.ai-h b{margin-right:auto;font-size:13px}.ai-h #aiSt{font:10px var(--mono);color:var(--text3)}.ai-h button{background:none;border:0;font-size:18px;cursor:pointer;color:var(--text2)}
+.ai-m{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:10px}.ai-b{max-width:90%;padding:9px 12px;border-radius:12px;font-size:12.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word}.ai-b.u{align-self:flex-end;background:var(--ac);color:#fff}.ai-b.a{align-self:flex-start;background:var(--bg3);border:1px solid var(--border)}
+.ai-a,.ai-c{display:flex;gap:6px;flex-wrap:wrap}.ai-a{margin-top:8px}.ai-c{padding:0 12px 8px}.ai-c .chip,.ai-a .chip{font-size:11px;padding:5px 10px}
+.ai-f{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border)}.ai-f input{flex:1;min-width:0;padding:9px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font:13px var(--font);outline:0}.ai-f input:focus{border-color:var(--ac)}
+</style></head><body>
+<div class="nb" id="nb"></div>
+<button class="ai-fab" id="aiFab" aria-label="Open AI Guide">✨</button>
+<div class="ai" id="aiP"><div class="ai-h"><b>✨ LearnHub AI Guide</b><span id="aiSt">offline guide</span><button id="aiX" aria-label="Close">×</button></div><div class="ai-m" id="aiM"></div><div class="ai-c" id="aiC"></div><div class="ai-f"><input id="aiIn" placeholder="Ask about any course, command or tool…" autocomplete="off"><button class="btn" id="aiSend">Send</button></div></div>
+<div class="layout"><aside class="sidebar" id="sb"><div class="slg"><div class="brand">Learn<span>Hub</span></div><div class="role-pill">🎓 Learning Portal</div></div>
+<div class="ns"><div class="nst">Learning</div><button class="nv on" data-v="dash">🏠 Dashboard</button><button class="nv" data-v="courses">📚 All Courses</button><button class="nv" data-v="hb">⌨️ Command Handbook</button><button class="nv" data-v="lab">🧪 Network Lab</button><button class="nv" data-v="subnet">🧮 Subnet Calculator</button></div>
+<div class="ns"><div class="nst">My Courses</div><button class="sl" data-c="0"><span>📡</span>Fundamentals</button><button class="sl" data-c="1"><span>💻</span>Windows & Linux Tools</button><button class="sl" data-c="2"><span>🔀</span>Switching & VLANs</button><button class="sl" data-c="3"><span>🧭</span>Routing</button><button class="sl" data-c="4"><span>⚙️</span>Network Services</button><button class="sl" data-c="5"><span>🛡️</span>Firewall & VPN</button><button class="sl" data-c="6"><span>🏗️</span>Resilient Design</button><button class="sl" data-c="7"><span>🩺</span>Troubleshooting</button></div>
+<div class="sb-bottom"><div class="sbp"><b>Your progress</b><div class="pb"><i id="sbb"></i></div><div class="pl"><span id="sbt">0/32</span></div></div>
+<div style="display:flex;align-items:center;gap:8px"><div class="avatar" id="av">L</div><div><div style="font-size:12px;font-weight:600" id="un">Learner</div><div style="font-size:10px;color:var(--text3)">Administrator</div></div></div></div></aside>
+<div class="wrap"><div class="topbar"><button id="mb" aria-label="Menu">☰</button><span id="vt">Dashboard</span><input class="top-in" id="gs" placeholder="Search courses and lessons…"><span id="clk"></span><button class="tb" id="thm">🌙 Dark</button><span class="badge top">ADMIN</span></div>
+<main><section class="view on" id="v-dash"></section><section class="view" id="v-courses"></section>
+<section class="view" id="v-hb"><div class="hb-bar"><input id="hbQ" placeholder="Search commands, e.g. vlan, arp, dhcp…"></div><div class="hb-bar" id="hbC"></div><div class="glass" style="overflow:auto"><table class="hb-t"><tbody id="hbT"></tbody></table></div>
+<h2>Configuration snippets</h2><div class="grid" id="hbCfg" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))"></div><h2>Troubleshooting workflow</h2><div class="glass" style="overflow:auto"><table class="hb-t" id="hbTs"></table></div></section>
+<section class="view" id="v-lab"><p style="color:var(--muted);font-size:.88rem;margin:0 0 14px;max-width:760px;line-height:1.6">A safe in-browser simulator of the sample office lab: a switch, a router and a Windows PC. Pick a device and type commands. Nothing here touches a real network.</p>
+<div class="lab2"><div><div class="dv" id="nlD"></div><div class="glass pad"><b style="font-size:.9rem">Lab tasks · VLAN 10 · 192.168.10.0/24</b><ul class="tk" id="nlT" style="margin-top:10px"><li id="k1">Create VLAN 10 named IT on SW1</li><li id="k2">Put SW1 gi1/0/1 and gi1/0/24 in access VLAN 10</li><li id="k3">Set R1 gi0/0 to 192.168.10.1 255.255.255.0 and bring it up</li><li id="k4">From PC-IT: ping 192.168.10.1</li></ul><p style="color:var(--muted);font-size:.75rem;margin:12px 0 0;line-height:1.6">Topology: PC-IT ⇄ SW1 gi1/0/1 · R1 gi0/0 ⇄ SW1 gi1/0/24. Type <b>?</b> for commands.</p></div></div>
+<div class="glass"><div class="th" id="nlTt">SW1 console</div><div id="nlOut"></div><div class="nlr"><span id="nlP"></span><input id="nlIn" autocomplete="off" spellcheck="false"></div></div></div></section><section class="view" id="v-subnet">
+<div class="glass pad"><div style="font-size:13px;font-weight:600;margin-bottom:4px">IPv4 Subnet Calculator</div><p style="color:var(--text3);font-size:12px;margin-bottom:14px">Enter an IP address (or <code>192.168.1.10/24</code>) and a prefix. Pick a class to load a typical network.</p>
+<div class="sc-form"><div class="fg"><label>IP address</label><input id="sIp" value="192.168.1.10" autocomplete="off" spellcheck="false"></div><div class="fg"><label>Prefix / mask</label><select id="sP" class="top-in" style="width:100%"></select></div><button class="btn" id="sGo" style="align-self:end;margin-bottom:14px">Calculate</button></div>
+<div class="hb-bar" id="sCls"><button class="chip" data-ip="10.0.0.1" data-p="8">Class A · /8</button><button class="chip" data-ip="172.16.0.1" data-p="16">Class B · /16</button><button class="chip on" data-ip="192.168.1.10" data-p="24">Class C · /24</button><button class="chip" data-ip="224.0.0.5" data-p="4">Class D · multicast</button><button class="chip" data-ip="240.0.0.1" data-p="4">Class E · reserved</button><button class="chip" data-ip="10.1.1.0" data-p="30">/30 point-to-point</button></div></div>
+<h2>Result</h2><div class="sc-grid" id="sRes"></div>
+<div class="glass pad" style="margin-top:12px"><div class="nst" style="padding:0 0 8px">Binary (network bits highlighted)</div><div class="bin" id="sBin"></div></div>
+<h2>Split into subnets (VLSM)</h2>
+<div class="glass pad"><div class="sc-form"><div class="fg"><label>Split by</label><select id="sMode" class="top-in" style="width:100%"><option value="n">Number of subnets</option><option value="h">Hosts per subnet</option></select></div><div class="fg"><label>Value</label><input id="sVal" type="number" min="1" value="4"></div><button class="btn" id="sSplit" style="align-self:end;margin-bottom:14px">Split network</button></div><div id="sOut" style="overflow:auto"></div></div>
+<h2>Address classes</h2><div class="glass" style="overflow:auto"><table><thead><tr><th>Class</th><th>First octet</th><th>Leading bits</th><th>Default mask</th><th>Networks</th><th>Hosts / network</th><th>Use</th></tr></thead><tbody>
+<tr><td><b>A</b></td><td class="m">1 – 126</td><td class="m">0</td><td class="m">255.0.0.0 /8</td><td class="m">126</td><td class="m">16,777,214</td><td>Very large networks</td></tr>
+<tr><td><b>B</b></td><td class="m">128 – 191</td><td class="m">10</td><td class="m">255.255.0.0 /16</td><td class="m">16,384</td><td class="m">65,534</td><td>Medium networks</td></tr>
+<tr><td><b>C</b></td><td class="m">192 – 223</td><td class="m">110</td><td class="m">255.255.255.0 /24</td><td class="m">2,097,152</td><td class="m">254</td><td>Small networks, LANs</td></tr>
+<tr><td><b>D</b></td><td class="m">224 – 239</td><td class="m">1110</td><td class="m">n/a</td><td class="m">n/a</td><td class="m">n/a</td><td>Multicast</td></tr>
+<tr><td><b>E</b></td><td class="m">240 – 255</td><td class="m">1111</td><td class="m">n/a</td><td class="m">n/a</td><td class="m">n/a</td><td>Experimental / reserved</td></tr></tbody></table></div>
+<h2>Special and private ranges</h2><div class="glass" style="overflow:auto"><table><thead><tr><th>Range</th><th>CIDR</th><th>Purpose</th></tr></thead><tbody>
+<tr><td class="m">10.0.0.0 – 10.255.255.255</td><td class="m">10.0.0.0/8</td><td><span class="badge bg">Private</span> Class A, large enterprises</td></tr>
+<tr><td class="m">172.16.0.0 – 172.31.255.255</td><td class="m">172.16.0.0/12</td><td><span class="badge bg">Private</span> Class B range</td></tr>
+<tr><td class="m">192.168.0.0 – 192.168.255.255</td><td class="m">192.168.0.0/16</td><td><span class="badge bg">Private</span> Office and home LANs</td></tr>
+<tr><td class="m">127.0.0.0 – 127.255.255.255</td><td class="m">127.0.0.0/8</td><td><span class="badge by">Loopback</span></td></tr>
+<tr><td class="m">169.254.0.0 – 169.254.255.255</td><td class="m">169.254.0.0/16</td><td><span class="badge by">APIPA</span> No DHCP answer</td></tr>
+<tr><td class="m">100.64.0.0 – 100.127.255.255</td><td class="m">100.64.0.0/10</td><td><span class="badge bgr">CGNAT</span> Carrier-grade NAT</td></tr></tbody></table></div>
+<h2>CIDR reference <small style="color:var(--text3);font-family:var(--font)">click a row to calculate</small></h2><div class="glass" style="overflow:auto;max-height:420px"><table id="sCidr"></table></div>
+</section>
+</main></div></div>
+<script>(function(){
+const H=`CMD|ipconfig /all|Full adapter, DHCP, DNS, MAC and gateway details
+CMD|ipconfig /release|Release DHCP-assigned IPv4 address
+CMD|ipconfig /renew|Request a new DHCP lease
+CMD|ipconfig /flushdns|Clear local DNS resolver cache
+CMD|ping -n 100 8.8.8.8|Send 100 echo requests to assess loss
+CMD|tracert google.com|Trace route to a destination
+CMD|pathping google.com|Route tracing plus packet-loss statistics
+CMD|nslookup -type=MX example.com|Query mail exchanger records
+CMD|arp -a|Display local IPv4 ARP cache
+CMD|getmac /v|MAC addresses and adapter details
+CMD|netstat -ano|Connections, listening ports and process IDs
+CMD|route print|Display routing tables
+CMD|netsh winsock reset|Reset Winsock catalog (restart may be needed)
+CMD|netsh int ip reset|Reset TCP/IP stack (restart may be needed)
+PowerShell|Get-NetIPConfiguration|IP, gateway and DNS configuration
+PowerShell|Get-NetAdapter|List adapters and status
+PowerShell|Get-NetAdapterStatistics|Adapter traffic and error counters
+PowerShell|Get-NetRoute|Display routing table
+PowerShell|Get-NetNeighbor|Neighbor/ARP cache
+PowerShell|Test-NetConnection server -Port 443|Test TCP connectivity to a port
+PowerShell|Resolve-DnsName example.com|DNS lookup
+PowerShell|Clear-DnsClientCache|Clear DNS client cache
+PowerShell|Get-NetTCPConnection|List TCP connections
+PowerShell|Get-NetFirewallProfile|Windows Firewall profile state
+PowerShell|Restart-NetAdapter -Name Ethernet|Restart a named adapter (admin)
+Linux|ip a|Show IP addresses
+Linux|ip route|Show routing table
+Linux|ip neigh|Show neighbor/ARP table
+Linux|ip link set eth0 up|Enable an interface
+Linux|ss -tulnp|Listening TCP/UDP sockets and processes
+Linux|dig example.com|DNS query
+Linux|ethtool eth0|Ethernet link details
+Linux|sudo tcpdump -ni eth0 host 192.168.1.10|Capture packets for a host
+Linux|mtr example.com|Interactive route and loss analysis
+Linux|nc -zv 192.168.1.10 443|Test a TCP port
+Linux|nmcli device status|NetworkManager device status
+Switch|enable|Enter privileged EXEC mode
+Switch|configure terminal|Enter global configuration mode
+Switch|show running-config|Display active configuration
+Switch|show startup-config|Display saved configuration
+Switch|show version|Model, software and uptime
+Switch|show interfaces status|Quick port status and VLAN view
+Switch|show ip interface brief|Layer 3 interface IP status
+Switch|show vlan brief|List VLANs and port membership
+Switch|show interfaces trunk|Trunk ports and allowed VLANs
+Switch|show mac address-table|Learned MAC addresses
+Switch|show mac address-table interface gi1/0/8|MACs learned on a port
+Switch|show mac address-table address aaaa.bbbb.cccc|Find a specific MAC
+Switch|show ip arp|IPv4 ARP table (Layer 3 device)
+Switch|show spanning-tree|Spanning-tree state
+Switch|show cdp neighbors|Discover Cisco neighbors
+Switch|show lldp neighbors|Discover LLDP neighbors
+Switch|show logging|System logs
+Switch|show ip dhcp binding|DHCP leases (use with ARP to map MAC to IP)
+Brocade ICX|show version|Model and software version
+Brocade ICX|show interfaces brief|Interface status summary
+Brocade ICX|show interfaces ethernet 1/1/8|Details for one port
+Brocade ICX|show vlan|VLAN configuration and membership
+Brocade ICX|show mac-address ethernet 1/1/8|MACs by port
+Brocade ICX|show mac-address vlan 10|MACs by VLAN
+Brocade ICX|show arp|ARP entries on Layer 3 device
+Brocade ICX|show ip route|Routing table
+Brocade ICX|show lldp neighbors|LLDP neighbors
+Router|show ip route|Routing table
+Router|show ip ospf neighbor|OSPF adjacencies
+Router|show ip dhcp pool|DHCP pool status
+Router|show ip nat translations|Active NAT translations
+Router|show access-lists|ACL entries and hit counts
+Security|show port-security interface gi1/0/1|Port security state
+Security|show etherchannel summary|Link aggregation summary
+Security|show lacp neighbor|LACP partners`.split('\n').map(l=>l.split('|'));
+const cats=['All',...new Set(H.map(r=>r[0]))];let ac='All';
+const hq=document.getElementById('hbQ'),ht=document.getElementById('hbT'),hc=document.getElementById('hbC');
+function esc(x){return x.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function dh(){const q=hq.value.toLowerCase();ht.innerHTML=H.filter(r=>(ac=='All'||r[0]==ac)&&(r[1]+r[2]).toLowerCase().includes(q)).map(r=>`<tr><td data-c="${esc(r[1])}">${esc(r[1])}</td><td>${esc(r[2])}</td><td><span class="tag tag-blue">${r[0]}</span></td></tr>`).join('')||'<tr><td>No match</td></tr>';hc.innerHTML=cats.map(c=>`<button class="chip${c==ac?' on':''}">${c}</button>`).join('')}
+hc.onclick=e=>{if(e.target.classList.contains('chip')){ac=e.target.textContent;dh()}};hq.oninput=dh;
+ht.onclick=e=>{const c=e.target.dataset.c;if(c){navigator.clipboard&&navigator.clipboard.writeText(c).catch(()=>{});e.target.style.opacity=.5;setTimeout(()=>e.target.style.opacity=1,300)}};dh();
+const C=[["Access port","enable\nconfigure terminal\ninterface gigabitEthernet 1/0/1\n description USER-PC\n switchport mode access\n switchport access vlan 10\n no shutdown\nend\nwrite memory"],
+["VLANs","configure terminal\nvlan 10\n name IT\nvlan 20\n name HR\nvlan 30\n name FINANCE\nvlan 40\n name SERVERS\nend\nwrite memory"],
+["Trunk uplink","interface gigabitEthernet 1/0/24\n description UPLINK-TO-SWITCH-02\n switchport mode trunk\n switchport trunk allowed vlan 10,20,30,40\n no shutdown"],
+["Brocade ICX VLAN","vlan 10 name IT by port\n untagged ethernet 1/1/1 to 1/1/8\n tagged ethernet 1/1/24\n exit\nwrite memory"],
+["Router interfaces","interface gigabitEthernet 0/0\n description LAN\n ip address 192.168.1.1 255.255.255.0\n no shutdown"],
+["Static & default route","ip route 192.168.3.0 255.255.255.0 192.168.1.2\nip route 0.0.0.0 0.0.0.0 203.0.113.1"],
+["OSPF","router ospf 1\n network 192.168.1.0 0.0.0.255 area 0\n network 192.168.2.0 0.0.0.255 area 0"],
+["DHCP server","ip dhcp excluded-address 192.168.1.1 192.168.1.20\nip dhcp pool IT-LAN\n network 192.168.1.0 255.255.255.0\n default-router 192.168.1.1\n dns-server 8.8.8.8 1.1.1.1\n lease 7"],
+["NAT overload (PAT)","access-list 1 permit 192.168.1.0 0.0.0.255\ninterface gigabitEthernet 0/0\n ip nat inside\ninterface gigabitEthernet 0/1\n ip nat outside\nip nat inside source list 1 interface gigabitEthernet 0/1 overload"],
+["Port security","interface gigabitEthernet 1/0/1\n switchport mode access\n switchport port-security\n switchport port-security maximum 2\n switchport port-security mac-address sticky\n switchport port-security violation restrict"],
+["DHCP snooping","ip dhcp snooping\nip dhcp snooping vlan 10\ninterface gigabitEthernet 1/0/24\n ip dhcp snooping trust"],
+["ACL","access-list 10 permit 192.168.1.0 0.0.0.255\naccess-list 10 deny any\ninterface gigabitEthernet 0/0\n ip access-group 10 in"]];
+document.getElementById('hbCfg').innerHTML=C.map(c=>`<div class="hb-card rv"><h3>${c[0]}<span class="cp" data-i="${C.indexOf(c)}">copy</span></h3><pre>${esc(c[1])}</pre></div>`).join('');
+document.getElementById('hbCfg').onclick=e=>{const i=e.target.dataset.i;if(i!=null){navigator.clipboard&&navigator.clipboard.writeText(C[i][1]).catch(()=>{});e.target.textContent='copied'}};
+const TS=[["No link","Check cable, port LEDs, NIC, switch port state, interface errors"],["No IP address","ipconfig /all; check DHCP scope, VLAN, relay and server"],["Cannot reach gateway","Ping gateway; check subnet, VLAN, access port, ARP, gateway interface"],["Ping IP but not name","nslookup; check DNS server, suffix, resolver reachability"],["No internet by IP","Ping external IP; tracert; check default route, NAT, firewall policy"],["Slow connection","pathping; loss, duplex/speed mismatch, interface errors, congestion"],["Port blocked","Test-NetConnection host -Port 443; check ACL, firewall, listener"],["Duplicate IP","arp -a; DHCP leases; IPAM; static assignments"],["Intermittent link","Switch logs, counters, cable test, power, transceiver health"]];
+document.getElementById('hbTs').innerHTML=TS.map(r=>`<tr><td style="color:var(--accent4);font-family:Syne">${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+/* ---- lab ---- */
+const N={SW1:{t:'sw',h:'SW1',m:'user',vl:{1:'default'},p:{}},R1:{t:'rt',h:'R1',m:'user',i:{'gi0/0':{ip:'',up:0}}},'PC-IT':{t:'pc',h:'PC-IT',ip:'192.168.10.10',gw:'192.168.10.1'}};
+for(let i=1;i<=24;i++)N.SW1.p['gi1/0/'+i]={v:1,md:'access'};
+let cur='SW1',ci=null,cv=null;const o=document.getElementById('nlOut'),inp=document.getElementById('nlIn'),dv=document.getElementById('nlD');
+const P=x=>{o.textContent+=x+'\n';o.scrollTop=o.scrollHeight};
+const pr=d=>d.t=='pc'?'C:\\Users\\IT>':d.h+({user:'>',priv:'#',cfg:'(config)#',if:'(config-if)#',vlan:'(config-vlan)#'})[d.m];
+const nf=x=>x.toLowerCase().replace('gigabitethernet','gi').replace('gigabit','gi');
+function pp(){document.getElementById('nlP').textContent=pr(N[cur])}
+function sel(n){cur=n;dv.innerHTML=Object.keys(N).map(k=>`<button class="chip${k==n?' on':''}" data-n="${k}">${k}</button>`).join('');document.getElementById('nlTt').textContent=n+' console';o.textContent='';P('Connected to '+n+'. Type ? for help.');pp()}
+dv.onclick=e=>{if(e.target.dataset.n){sel(e.target.dataset.n);inp.focus()}};
+function ok1(){const s=N.SW1;return s.vl[10]=='IT'&&s.p['gi1/0/1'].v==10&&s.p['gi1/0/24'].v==10}
+function reach(){const r=N.R1.i['gi0/0'];return ok1()&&r.up&&r.ip=='192.168.10.1'}
+function chk(){const s=N.SW1,r=N.R1.i['gi0/0'];k1.classList.toggle('d',s.vl[10]=='IT');k2.classList.toggle('d',s.p['gi1/0/1'].v==10&&s.p['gi1/0/24'].v==10);k3.classList.toggle('d',!!r.up&&r.ip=='192.168.10.1')}
+function run(c){const d=N[cur],a=c.trim().split(/\s+/),w=(a[0]||'').toLowerCase(),r=a.slice(1).join(' ').toLowerCase();P(pr(d)+' '+c);if(!w)return;
+ if(d.t=='pc'){if(w=='?'||w=='help')return P('ipconfig [/all] | ping <ip> | nslookup <name> | tracert <ip> | arp -a | cls');
+  if(w=='cls')return o.textContent='';
+  if(w=='ipconfig')return P('Ethernet adapter:\n   IPv4 Address. . . : '+d.ip+'\n   Subnet Mask . . . : 255.255.255.0\n   Default Gateway . : '+d.gw+(r=='/all'?'\n   DHCP Enabled. . . : No\n   DNS Servers . . . : 8.8.8.8':''));
+  if(w=='ping'){const ip=a[1];if(!ip)return P('Usage: ping <ip>');if(ip==d.ip||(ip=='192.168.10.1'&&reach())){P('Reply from '+ip+': bytes=32 time<1ms TTL=64 (x4)\nLost = 0 (0% loss)');if(ip=='192.168.10.1')k4.classList.add('d')}else P('Request timed out. (x4)\nLost = 4 (100% loss)');return}
+  if(w=='arp')return P(reach()?'192.168.10.1   aa-bb-cc-00-10-01   dynamic':'No ARP Entries Found.');
+  if(w=='nslookup')return P('DNS request timed out. (no DNS in this lab)');
+  if(w=='tracert')return P(reach()&&a[1]=='192.168.10.1'?'  1    <1 ms  192.168.10.1\nTrace complete.':'  1     *   Request timed out.');
+  return P("'"+a[0]+"' is not recognized as a command.")}
+ if(w=='?'||w=='help')return P('enable | configure terminal | hostname <n> | interface <if> | exit | end\nvlan <id> / name <n> (switch) | switchport mode access|trunk | switchport access vlan <id>\nip address <ip> <mask> | no shutdown | shutdown | write memory\nshow vlan brief | show ip interface brief | show running-config | show interfaces status | show mac address-table | show version | ping <ip> (router) | clear');
+ if(w=='clear')return o.textContent='';
+ if(w=='enable'){d.m='priv';return pp()}if(w=='disable'){d.m='user';return pp()}
+ if(w=='end'){if(d.m!='user')d.m='priv';return pp()}
+ if(w=='exit'){d.m=d.m=='if'||d.m=='vlan'?'cfg':d.m=='cfg'?'priv':'user';return pp()}
+ if(w=='conf'||w=='configure'){if(d.m!='priv')return P('% Enable mode required');d.m='cfg';return pp()}
+ if(w=='wr'||w=='write'||(w=='copy'&&r.startsWith('run')))return P('Building configuration... [OK]');
+ if(d.m=='cfg'||d.m=='if'||d.m=='vlan'){
+  if(w=='hostname'&&a[1]){d.h=a[1];return pp()}
+  if(w=='vlan'&&d.t=='sw'&&a[1]){cv=+a[1];if(!d.vl[cv])d.vl[cv]='VLAN'+String(cv).padStart(4,'0');d.m='vlan';chk();return pp()}
+  if(w=='name'&&d.m=='vlan'){d.vl[cv]=a[1];chk();return}
+  if(w=='interface'||w=='int'){const k=nf(a[1]||'');const t=d.t=='sw'?d.p:d.i;if(!t[k])return P('% Invalid interface');ci=k;d.m='if';return pp()}
+  if(d.m=='if'){const x=d.t=='sw'?d.p[ci]:d.i[ci];
+   if(w=='switchport'&&d.t=='sw'){if(a[1]=='mode'){x.md=a[2];return}if(a[1]=='access'&&a[2]=='vlan'){const v=+a[3];if(!d.vl[v])P('% Access VLAN does not exist. Creating vlan '+v),d.vl[v]='VLAN'+String(v).padStart(4,'0');x.v=v;chk();return}}
+   if(w=='ip'&&a[1]=='address'&&d.t=='rt'){x.ip=a[2];chk();return}
+   if(w=='shutdown'){x.up=0;chk();return}
+   if(w=='no'&&a[1]=='shutdown'){x.up=1;P('%LINK-3-UPDOWN: '+ci+', changed state to up');chk();return}
+   if(w=='description')return}
+  return P('% Invalid input')}
+ if(w=='show'||w=='sh'){if(d.m=='user')return P('% Enable mode required');
+  if(/^vlan/.test(r)){P('VLAN Name            Ports');Object.entries(d.vl).forEach(([v,n])=>P(String(v).padEnd(5)+n.padEnd(16)+Object.entries(d.p).filter(([k,x])=>x.v==v).map(([k])=>k.replace('gi1/0/','Gi')).slice(0,12).join(',')));return}
+  if(/^ip int/.test(r)){if(d.t=='sw')return P('Vlan1  unassigned  up');P('Interface   IP-Address       Status');Object.entries(d.i).forEach(([k,x])=>P(k.padEnd(12)+(x.ip||'unassigned').padEnd(17)+(x.up?'up':'administratively down')));return}
+  if(/^int.*status/.test(r)&&d.t=='sw'){P('Port      Status     Vlan  Mode');Object.entries(d.p).slice(0,3).concat([['gi1/0/24',d.p['gi1/0/24']]]).forEach(([k,x])=>P(k.padEnd(10)+'connected '+String(x.v).padEnd(6)+x.md));return}
+  if(/^mac/.test(r))return P(d.t=='sw'&&ok1()?'Vlan  Mac Address       Port\n10    aabb.cc00.1010    Gi1/0/1\n10    aabb.cc00.1001    Gi1/0/24':'Mac Address Table is empty');
+  if(/^run/.test(r))return P('hostname '+d.h+(d.t=='sw'?'\n'+Object.entries(d.vl).map(([v,n])=>'vlan '+v+'\n name '+n).join('\n'):'\ninterface gi0/0\n ip address '+(N.R1.i['gi0/0'].ip||'unassigned')));
+  if(r=='version')return P('Learn-OS (simulated) 15.2, '+d.h+' uptime 3 hours');
+  return P('% Invalid input')}
+ if(w=='ping'&&d.t=='rt'){const ip=a[1];if(ip=='192.168.10.10'&&reach())return P('!!!!!\nSuccess rate is 100 percent (5/5)');return P('.....\nSuccess rate is 0 percent (0/5)')}
+ P('% Unknown command')}
+inp.addEventListener('keydown',e=>{if(e.key=='Enter'){run(inp.value);inp.value=''}});sel('SW1');
+
+/* ---- dashboard app ---- */
+const CR=[
+['📡','Networking Fundamentals','Beginner','Core concepts every IT professional needs.',[['OSI & TCP/IP models','Seven layers versus four. Know where switches, routers and firewalls operate and troubleshoot layer by layer.','ping'],['IP addressing & subnetting','Private ranges 10/8, 172.16/12 and 192.168/16, and host counts from /24 down to /30.','ip'],['DNS, DHCP & gateways','How a client gets an address, resolves names and reaches other subnets.','dhcp'],['ARP & MAC addresses','Layer 2 and Layer 3 identity, and how ARP maps IPs to MACs on a LAN.','arp']]],
+['💻','Windows & Linux Network Tools','Beginner','Diagnose connectivity from the endpoint.',[['ipconfig, ping & tracert','Read adapter details, test reachability and trace the path.','ipconfig'],['PowerShell networking','Get-NetIPConfiguration and Test-NetConnection for port checks.','Get-Net'],['Linux ip, ss & dig','Addresses, routes, sockets and DNS from the shell.','ip '],['Packet capture basics','tcpdump and Wireshark for host-level evidence.','tcpdump']]],
+['🔀','Switching & VLANs','Intermediate','Segment and connect the LAN.',[['VLANs & access ports','Create VLANs and assign ports. Practise this in the lab.','vlan'],['Trunks & allowed VLANs','Carry several VLANs across one uplink.','trunk'],['Spanning tree','Prevent loops; read root and port roles.','spanning'],['EtherChannel & LACP','Bundle links for bandwidth and redundancy.','etherchannel']]],
+['🧭','Routing','Intermediate','Move traffic between networks.',[['Static & default routes','Next-hop routes and an upstream default gateway.','route'],['OSPF','Areas, adjacencies and verifying learned routes.','ospf'],['BGP','iBGP and eBGP, route policies and dual-ISP design.','route'],['EIGRP, RIP & IS-IS','Where each protocol fits and how they compare.','route']]],
+['⚙️','Network Services','Intermediate','Services that make a LAN usable.',[['DHCP server & relay','Pools, exclusions and relay across VLANs.','dhcp'],['NAT & PAT','Inside, outside and overload translation.','nat'],['Access lists','Permit and deny rules; mind the implicit deny.','access-list'],['Port security & DHCP snooping','Limit MACs per port and trust only the real DHCP path.','port-security']]],
+['🛡️','Firewall & VPN','Intermediate','Control and protect traffic.',[['Zones & firewall rules','Source, destination, service and action.','show'],['NAT rules','SNAT, DNAT and masquerading.','nat'],['IPsec & SSL VPN','Site-to-site and remote access; IKEv2 negotiation.','show'],['WireGuard & OpenVPN','Modern and TLS-based VPN options.','show']]],
+['🏗️','Resilient Design','Advanced','Build networks that stay up.',[['HSRP, VRRP & GLBP','First-hop redundancy for the default gateway.','show'],['STP design','Align root bridges with gateways.','spanning'],['VTP domains','Centralised VLAN management and its risks.','vlan'],['Route redistribution','Safely move routes between protocols.','route']]],
+['🩺','Operations & Troubleshooting','Beginner','Work methodically and document everything.',[['Troubleshooting workflow','Physical, local config, gateway, external IP, DNS, application, infrastructure, record.','ping'],['Monitoring tools','PRTG, Zabbix, LibreNMS, NetBox and iperf3.','show'],['Config & maintenance checklist','Backups, SSH, NTP, syslog, firmware and rollback.','show'],['Documentation','Network diagrams, IP plan, VLAN register and port map.','show']]]];
+let pr_={done:{},act:{}};const KEY='learn.progress.v1';try{pr_=JSON.parse(localStorage.getItem(KEY))||pr_}catch(e){}
+const sv=()=>{try{localStorage.setItem(KEY,JSON.stringify(pr_))}catch(e){}};
+const tdy=()=>new Date().toISOString().slice(0,10);
+const cp=i=>CR[i][4].filter((_,j)=>pr_.done[i+'.'+j]).length;
+const pc=i=>Math.round(100*cp(i)/CR[i][4].length);
+const tot=CR.reduce((s,c)=>s+c[4].length,0),dn=()=>Object.keys(pr_.done).filter(k=>pr_.done[k]).length;
+const $=id=>document.getElementById(id);let cc=null,cl=0,view='dash',nm='';
+function streak(){let n=0,d=new Date();if(!pr_.act[d.toISOString().slice(0,10)])d.setDate(d.getDate()-1);while(pr_.act[d.toISOString().slice(0,10)]){n++;d.setDate(d.getDate()-1)}return n}
+function anim(){setTimeout(()=>{document.querySelectorAll('[data-w]').forEach(e=>e.style.width=e.dataset.w);document.querySelectorAll('[data-h]').forEach(e=>e.style.height=e.dataset.h);document.querySelectorAll('[data-d]').forEach(e=>e.setAttribute('stroke-dasharray',e.dataset.d))},60)}
+const card=i=>{const c=CR[i];return `<div class="glass cc rv" data-c="${i}"><span class="ic">${c[0]}</span><h4>${c[1]}</h4><p>${c[3]}</p><span class="tag">${c[2]}</span><span class="tag">${c[4].length} lessons</span><div class="pb" style="margin-top:12px"><i data-w="${pc(i)}%"></i></div><div class="pl"><span>${cp(i)}/${c[4].length} done</span><span>${pc(i)}%</span></div></div>`};
+function nextUp(){let b=CR.findIndex((_,i)=>pc(i)>0&&pc(i)<100);if(b<0)b=CR.findIndex((_,i)=>pc(i)<100);if(b<0)b=0;const j=Math.max(0,CR[b][4].findIndex((_,j)=>!pr_.done[b+'.'+j]));return[b,j]}
+const tbl=()=>`<div class="glass" style="overflow:auto"><table class="dt"><thead><tr><th>Course</th><th>Level</th><th>Lessons</th><th>Progress</th><th>Status</th></tr></thead><tbody>${CR.map((c,i)=>{const p=pc(i);return `<tr data-c="${i}"><td>${c[0]} ${c[1]}</td><td>${c[2]}</td><td class="m">${cp(i)}/${c[4].length}</td><td style="min-width:140px"><div class="pb"><i data-w="${p}%"></i></div></td><td><span class="badge ${p==100?'bg':p>0?'by':'bgr'}">${p==100?'Completed':p>0?'In progress':'Not started'}</span></td></tr>`}).join('')}</tbody></table></div>`;
+function toast(m){const d=document.createElement('div');d.className='nf';d.textContent=m;$('nb').appendChild(d);setTimeout(()=>d.remove(),2400)}
+function rd(){const p=Math.round(100*dn()/tot),[b,j]=nextUp(),c=2*Math.PI*34,days=[...Array(7)].map((_,k)=>{const d=new Date();d.setDate(d.getDate()-6+k);return[d.toLocaleDateString('en',{weekday:'short'}),pr_.act[d.toISOString().slice(0,10)]||0]}),mx=Math.max(1,...days.map(x=>x[1])),lt=document.querySelectorAll('#nlT li.d').length,cd=CR.filter((_,i)=>pc(i)==100).length;
+$('v-dash').innerHTML=`<div class="glass hello rv"><div><h3>Welcome back${nm?', '+nm:''}</h3><p>Work through the courses, look commands up in the handbook, then practise safely in the network lab. Your progress is saved in this browser.</p></div><button class="btn" data-go="courses" style="margin-left:auto">Browse courses</button></div>
+<div class="stats"><div class="glass st rv"><span class="ic">📈</span><div class="n">${p}%</div><div class="l">Overall progress</div></div><div class="glass st rv"><span class="ic">✅</span><div class="n">${dn()}/${tot}</div><div class="l">Lessons completed</div></div><div class="glass st rv"><span class="ic">🏆</span><div class="n">${cd}/${CR.length}</div><div class="l">Courses finished</div></div><div class="glass st rv"><span class="ic">🧪</span><div class="n">${lt}/4</div><div class="l">Lab tasks done</div></div><div class="glass st rv"><span class="ic">🔥</span><div class="n">${streak()}</div><div class="l">Day streak</div></div></div>
+<h2>Continue learning</h2><div class="two"><div class="glass cont rv"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" class="rt" stroke-width="7"/><circle cx="40" cy="40" r="34" fill="none" class="rg" stroke-width="7" stroke-linecap="round" transform="rotate(-90 40 40)" stroke-dasharray="0 ${c}" data-d="${c*pc(b)/100} ${c}" style="transition:stroke-dasharray 1.2s"/><text x="40" y="45" text-anchor="middle" class="rx" font-size="15" font-weight="700">${pc(b)}%</text></svg><div><h4>${CR[b][1]}</h4><p>Up next: ${CR[b][4][j][0]}</p><button class="btn" data-c="${b}" data-l="${j}">Continue</button></div></div>
+<div class="glass rv"><div style="padding:16px 18px 0;font-weight:700;font-size:.9rem">Lessons completed this week</div><div class="bars">${days.map(d=>`<div><i data-h="${Math.round(d[1]/mx*70)}px" title="${d[1]}"></i>${d[0]}</div>`).join('')}</div></div></div>
+<h2>Your courses <small data-go="courses">View all →</small></h2><div class="grid">${[0,1,2,3].map(card).join('')}</div>
+<h2>✨ AI suggestions</h2><div class="grid">${sug()}</div><h2>Course progress</h2>${tbl()}<h2>Practice</h2><div class="glass hello alt rv"><div><h3 style="font-size:1.2rem">🧪 Office Network Lab</h3><p>Build VLAN 10, configure the router gateway and ping from the PC. ${lt}/4 tasks done.</p></div><button class="btn" data-go="lab" style="margin-left:auto">Open lab</button></div>`;anim()}
+function rc(){const q=$('gs').value.toLowerCase(),v=$('v-courses');
+if(cc==null){const ix=CR.map((c,i)=>i).filter(i=>(CR[i][1]+CR[i][3]+CR[i][4].map(l=>l[0]).join(' ')).toLowerCase().includes(q));v.innerHTML=ix.length?`<div class="grid">${ix.map(card).join('')}</div>`:'<p style="color:var(--muted)">No courses match your search.</p>'}
+else{const c=CR[cc],l=c[4][cl],k=cc+'.'+cl;v.innerHTML=`<button class="back" data-back>← All courses</button><div class="det"><div class="glass"><h3 style="margin:0 0 4px">${c[0]} ${c[1]}</h3><p style="color:var(--muted);font-size:.82rem;margin:0 0 12px">${c[3]}</p><div class="pb"><i data-w="${pc(cc)}%"></i></div><div class="pl" style="margin-bottom:12px"><span>${cp(cc)}/${c[4].length} done</span><span>${pc(cc)}%</span></div>${c[4].map((x,j)=>`<div class="ls${j==cl?' on':''}${pr_.done[cc+'.'+j]?' d':''}" data-l="${j}"><u>${pr_.done[cc+'.'+j]?'✓':''}</u>${x[0]}</div>`).join('')}</div>
+<div class="glass rv"><span class="tag">${c[2]}</span><span class="tag">Lesson ${cl+1} of ${c[4].length}</span><h2 style="font-size:1.5rem;margin:14px 0 10px">${l[0]}</h2><p style="color:var(--text2);line-height:1.7">${l[1]}</p><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px"><button class="btn" data-tg="${k}">${pr_.done[k]?'Mark as not done':'Mark complete'}</button><button class="btn g" data-hbq="${l[2]}">Related commands</button><button class="btn g" data-go="lab">Practice in lab</button></div></div></div>`}anim()}
+function up(){const p=Math.round(100*dn()/tot);$('sbb').style.width=p+'%';$('sbt').textContent=dn()+'/'+tot+' lessons · '+p+'%'}
+function go(x){view=x;document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id=='v-'+x));document.querySelectorAll('.nv').forEach(b=>b.classList.toggle('on',b.dataset.v==x));$('vt').textContent={dash:'Dashboard',courses:cc!=null&&x=='courses'?CR[cc][1]:'Courses',hb:'Command Handbook',lab:'Network Lab',subnet:'Subnet Calculator'}[x];if(x=='dash')rd();if(x=='courses')rc();up();scrollTo(0,0)}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-v],[data-go],[data-c],[data-l],[data-tg],[data-back],[data-hbq]');if(!t)return;const D=t.dataset;
+if(D.v||D.go){if((D.v||D.go)=='courses')cc=null;return go(D.v||D.go)}
+if(D.back!==undefined){cc=null;return go('courses')}
+if(D.tg){pr_.done[D.tg]=!pr_.done[D.tg];if(pr_.done[D.tg])pr_.act[tdy()]=(pr_.act[tdy()]||0)+1;sv();up();toast(pr_.done[D.tg]?'Lesson marked complete':'Lesson marked as not done');return rc()}
+if(D.hbq){hq.value=D.hbq;ac='All';dh();return go('hb')}
+if(D.c!==undefined){cc=+D.c;cl=D.l!==undefined?+D.l:Math.max(0,CR[cc][4].findIndex((_,j)=>!pr_.done[cc+'.'+j]));return go('courses')}
+if(D.l!==undefined){cl=+D.l;rc()}});
+$('gs').oninput=()=>{cc=null;go('courses')};
+nm='Admin';function sn(){$('un').textContent='Admin';$('av').textContent='A'}sn();
+const tk=()=>{$('clk').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})};tk();setInterval(tk,1000);
+let th='light';try{th=localStorage.getItem('learn.theme')||'light'}catch(e){}
+function st(){document.documentElement.dataset.theme=th;$('thm').textContent=th=='light'?'🌙 Dark':'☀️ Light'}st();
+$('thm').onclick=()=>{th=th=='light'?'dark':'light';try{localStorage.setItem('learn.theme',th)}catch(e){}st()};
+$('mb').onclick=()=>$('sb').classList.toggle('open');
+document.addEventListener('click',e=>{if(e.target.closest('.sidebar [data-v],.sidebar [data-c]'))$('sb').classList.remove('open')});
+
+/* ---- AI guide ---- */
+const LT=['create VLAN 10 named IT on SW1','put SW1 gi1/0/1 and gi1/0/24 in access VLAN 10','set R1 gi0/0 to 192.168.10.1/24 and bring it up','ping 192.168.10.1 from PC-IT'];
+const labN=()=>document.querySelectorAll('#nlT li.d').length;
+function sug(){const[b,j]=nextUp(),lt=labN();return `<div class="glass cc rv" data-c="${b}" data-l="${j}"><span class="ic">✨</span><h4>Continue: ${CR[b][4][j][0]}</h4><p>${CR[b][1]} · ${pc(b)}% complete</p><span class="tag">Next lesson</span></div><div class="glass cc rv" data-go="lab"><span class="ic">🧪</span><h4>${lt<4?'Lab task '+(lt+1)+': '+LT[lt]:'Lab complete'}</h4><p>Practise in the simulated switch, router and PC.</p><span class="tag">Practice</span></div><div class="glass cc rv" data-go="subnet"><span class="ic">🧮</span><h4>Practise subnetting</h4><p>Split a /24 into subnets that fit 50 hosts each.</p><span class="tag">Tool</span></div>`}
+function ctx(){const[b,j]=nextUp();return{view,name:nm,progress:Math.round(100*dn()/tot),next:CR[b][4][j][0]+' in '+CR[b][1],labTasksDone:labN(),courses:CR.map((c,i)=>c[1]+': '+pc(i)+'%')}}
+function local(q){const t=q.toLowerCase(),[b,j]=nextUp(),lt=labN();let r,a;
+const hit=CR.findIndex(c=>(c[1]+' '+c[4].map(l=>l[0]).join(' ')).toLowerCase().split(/[^a-z0-9]+/).some(w=>w.length>3&&t.includes(w)));
+if(/subnet|cidr|mask|wildcard|vlsm|ip address/.test(t)){r='The Subnet Calculator gives the network, broadcast, host range and binary for any class or prefix, and splits a network by subnet count or hosts needed. Start with a /24 and split it by 50 hosts.';a='[[open:subnet]]'}
+else if(/lab|practi|simulat|console|hands/.test(t)){r='The Network Lab has a switch, router and PC. You have finished '+lt+' of 4 tasks. '+(lt<4?'Next: '+LT[lt]+'.':'All done. Try the Troubleshooting course next.');a='[[open:lab]]'}
+else if(/command|cheat|reference|handbook|show |ipconfig|tracert|cli|config/.test(t)){const k=(t.match(/vlan|arp|dhcp|nat|ospf|route|mac|trunk|dns/)||[''])[0];r='The Handbook lists about 75 commands for Windows, Linux, Cisco-style and Brocade ICX, plus copy-ready configs'+(k?'. I filtered it for "'+k+'".':'.');a='[[open:hb:'+k+']]'}
+else if(hit>=0){r=CR[hit][1]+' ('+CR[hit][2]+') has '+CR[hit][4].length+' lessons and you are '+pc(hit)+'% through it.';a='[[open:course:'+hit+']]'}
+else{r='You are '+Math.round(100*dn()/tot)+'% through the programme. Suggested next lesson: '+CR[b][4][j][0]+' in '+CR[b][1]+'. Then practise it in the lab and check the commands in the Handbook.';a='[[open:course:'+b+']] [[open:lab]] [[open:hb]]'}
+return r+' '+a}
+const aiM=$('aiM'),hist=[],LB={dash:'Dashboard',courses:'Browse courses',hb:'Handbook',lab:'Network Lab',subnet:'Subnet Calculator'};
+function bub(t,c){const d=document.createElement('div'),tg=[];d.className='ai-b '+c;d.textContent=t.replace(/\[\[open:([a-z]+)(?::([^\]]*))?\]\]/g,(m,a,b)=>{tg.push([a,b||'']);return''}).trim();
+if(tg.length){const w=document.createElement('div');w.className='ai-a';tg.forEach(([a,b])=>{if(a=='course'&&!CR[+b])return;const x=document.createElement('button');x.className='chip';x.textContent=a=='course'?'Open: '+CR[+b][1]:a=='hb'&&b?'Handbook: '+b:'Open '+(LB[a]||a);x.dataset.a=a;x.dataset.b=b;w.appendChild(x)});d.appendChild(w)}
+aiM.appendChild(d);aiM.scrollTop=aiM.scrollHeight}
+async function ask(q){q=q.trim().slice(0,1500);if(!q)return;bub(q,'u');hist.push({role:'user',content:q});const w=document.createElement('div');w.className='ai-b a';w.textContent='Thinking…';aiM.appendChild(w);let r,live=0;
+try{const c=new AbortController(),tm=setTimeout(()=>c.abort(),25000),x=await fetch('/api/agent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist.slice(-8),context:ctx()}),signal:c.signal});clearTimeout(tm);if(x.ok){const j=await x.json();if(j.reply){r=j.reply;live=1}}}catch(e){}
+if(!r)r=local(q);w.remove();bub(r,'a');hist.push({role:'assistant',content:r.replace(/\[\[[^\]]*\]\]/g,'').trim()});$('aiSt').textContent=live?'AI · Vercel':'offline guide'}
+let ai0=0;function aiOpen(){$('aiP').classList.add('on');if(!ai0){ai0=1;bub('Hi'+(nm?' '+nm:'')+'! I can guide you through courses, the command handbook, the network lab and the subnet calculator, and suggest what to do next. '+local('suggest next'),'a');$('aiC').innerHTML=['What should I learn next?','Help me with VLANs','How do I subnet a /24?','Where can I practise?'].map(x=>'<button class="chip">'+x+'</button>').join('')}$('aiIn').focus()}
+$('aiFab').onclick=()=>$('aiP').classList.contains('on')?$('aiP').classList.remove('on'):aiOpen();$('aiX').onclick=()=>$('aiP').classList.remove('on');
+$('aiSend').onclick=()=>{const v=$('aiIn').value;$('aiIn').value='';ask(v)};$('aiIn').onkeydown=e=>{if(e.key=='Enter')$('aiSend').click()};
+$('aiC').onclick=e=>{if(e.target.classList.contains('chip'))ask(e.target.textContent)};
+aiM.onclick=e=>{const x=e.target.closest('[data-a]');if(!x)return;const a=x.dataset.a,b=x.dataset.b;
+if(a=='course'){cc=+b;cl=Math.max(0,CR[cc][4].findIndex((_,j)=>!pr_.done[cc+'.'+j]));go('courses')}else if(a=='hb'){hq.value=b||'';ac='All';dh();go('hb')}else{if(a=='courses')cc=null;go(a)}};
+go('dash');
+})();</script><script>(function(){
+const $=id=>document.getElementById(id);
+const mk=p=>p==0?0:(0xFFFFFFFF<<(32-p))>>>0;
+const n2=n=>[n>>>24,(n>>>16)&255,(n>>>8)&255,n&255].join('.');
+function p2(s){const m=s.trim().match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);if(!m)return null;const o=m.slice(1).map(Number);if(o.some(x=>x>255))return null;return((o[0]<<24)|(o[1]<<16)|(o[2]<<8)|o[3])>>>0}
+const cls=n=>{const a=n>>>24;return a<128?'A':a<192?'B':a<224?'C':a<240?'D':'E'};
+function typ(n){const t=[[0x0A000000,8,'Private (RFC 1918)'],[0xAC100000,12,'Private (RFC 1918)'],[0xC0A80000,16,'Private (RFC 1918)'],[0x7F000000,8,'Loopback'],[0xA9FE0000,16,'APIPA / link-local'],[0x64400000,10,'Carrier-grade NAT'],[0xE0000000,4,'Multicast'],[0xF0000000,4,'Reserved']];for(const x of t)if(((n&mk(x[1]))>>>0)==(x[0]>>>0))return x[2];return 'Public'}
+function bin(n,p){let o='';for(let i=0;i<32;i++){const b=(n>>>(31-i))&1;o+=(i&&i%8==0?'.':'')+(i<p?'<b class="nb">'+b+'</b>':'<b>'+b+'</b>')}return o}
+const fmt=n=>n.toLocaleString('en');
+const sp=$('sP');for(let i=0;i<=32;i++){const o=document.createElement('option');o.value=i;o.textContent='/'+i+'  —  '+n2(mk(i));sp.appendChild(o)}sp.value=24;
+let last=null;
+function calc(){let raw=$('sIp').value,ipS=raw,p=+sp.value;if(raw.includes('/')){const a=raw.split('/');ipS=a[0];const b=parseInt(a[1],10);if(b>=0&&b<=32){p=b;sp.value=b}}
+const ip=p2(ipS);if(ip==null){$('sRes').innerHTML='<div class="sc-i"><div class="v" style="color:var(--red)">Enter a valid IPv4 address, e.g. 192.168.1.10</div></div>';$('sBin').innerHTML='';last=null;return null}
+const m=mk(p),net=(ip&m)>>>0,bc=(net|(~m>>>0))>>>0,tot=Math.pow(2,32-p),us=p<=30?tot-2:(p==31?2:1),f=p<=30?net+1:net,l=p<=30?bc-1:bc,c=cls(ip);
+const it=[['IP class','Class '+c+(c=='D'?' (multicast)':c=='E'?' (reserved)':'')],['Address type',typ(ip)],['Network address',n2(net)+'/'+p],['Broadcast address',p>=31?'n/a':n2(bc)],['First usable host',us?n2(f):'none'],['Last usable host',us?n2(l):'none'],['Usable hosts',fmt(us)],['Total addresses',fmt(tot)],['Subnet mask',n2(m)],['Wildcard mask',n2(~m>>>0)],['CIDR notation','/'+p],['Hex IP','0x'+ip.toString(16).toUpperCase().padStart(8,'0')]];
+$('sRes').innerHTML=it.map(x=>'<div class="sc-i"><div class="k">'+x[0]+'</div><div class="v">'+x[1]+'</div></div>').join('');
+$('sBin').innerHTML=[['IP',ip],['Mask',m],['Network',net]].map(x=>'<div><span>'+x[0]+'</span>'+bin(x[1],p)+'</div>').join('');
+document.querySelectorAll('#sCls .chip').forEach(b=>b.classList.toggle('on',b.dataset.ip==ipS.trim()&&+b.dataset.p==p));
+last={net,p};return last}
+function split(){const r=calc();if(!r)return;const mode=$('sMode').value,v=Math.max(1,Math.floor(+$('sVal').value||1));
+const np=mode=='n'?r.p+Math.ceil(Math.log2(v)):32-Math.ceil(Math.log2(v+2)),o=$('sOut');
+if(np>32){o.innerHTML='<p style="color:var(--red);font-size:12.5px">Not possible: /'+r.p+' cannot be split into '+v+' subnets.</p>';return}
+if(np<r.p){o.innerHTML='<p style="color:var(--red);font-size:12.5px">A subnet with '+fmt(v)+' hosts needs /'+np+', which is bigger than your /'+r.p+' network.</p>';return}
+const cnt=Math.pow(2,np-r.p),sz=Math.pow(2,32-np),us=np<=30?sz-2:(np==31?2:1),show=Math.min(cnt,64);
+let h='<p style="font-size:12.5px;margin-bottom:10px"><b>'+fmt(cnt)+'</b> subnets of <b>/'+np+'</b> (mask '+n2(mk(np))+') · <b>'+fmt(us)+'</b> usable hosts each'+(cnt>64?' · showing first 64':'')+'</p><table><thead><tr><th>#</th><th>Network</th><th>First host</th><th>Last host</th><th>Broadcast</th><th>Usable</th></tr></thead><tbody>';
+for(let i=0;i<show;i++){const n=r.net+i*sz,b=n+sz-1;h+='<tr><td class="m">'+(i+1)+'</td><td class="m">'+n2(n)+'/'+np+'</td><td class="m">'+(us?n2(np<=30?n+1:n):'—')+'</td><td class="m">'+(us?n2(np<=30?b-1:b):'—')+'</td><td class="m">'+(np>=31?'—':n2(b))+'</td><td class="m">'+fmt(us)+'</td></tr>'}
+o.innerHTML=h+'</tbody></table>'}
+let ch='<thead><tr><th>Prefix</th><th>Subnet mask</th><th>Wildcard</th><th>Total addresses</th><th>Usable hosts</th></tr></thead><tbody>';
+for(let i=1;i<=32;i++){const t=Math.pow(2,32-i);ch+='<tr data-p="'+i+'"><td class="m">/'+i+'</td><td class="m">'+n2(mk(i))+'</td><td class="m">'+n2(~mk(i)>>>0)+'</td><td class="m">'+fmt(t)+'</td><td class="m">'+fmt(i<=30?t-2:i==31?2:1)+'</td></tr>'}
+$('sCidr').innerHTML=ch+'</tbody>';
+$('sCidr').onclick=e=>{const r=e.target.closest('tr[data-p]');if(r){const v=$('sIp').value.split('/')[0];$('sIp').value=v;sp.value=r.dataset.p;calc();scrollTo({top:0,behavior:'smooth'})}};
+$('sCls').onclick=e=>{const b=e.target.closest('.chip');if(b){$('sIp').value=b.dataset.ip;sp.value=b.dataset.p;calc()}};
+$('sGo').onclick=calc;$('sSplit').onclick=split;sp.onchange=calc;$('sIp').oninput=calc;$('sIp').onkeydown=e=>{if(e.key=='Enter')calc()};
+calc();split();
+})();</script></body></html>
